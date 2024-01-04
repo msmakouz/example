@@ -1,0 +1,23 @@
+version: '3'
+rpc:
+    listen: tcp://127.0.0.1:6001
+server:
+    command: "php worker.php"
+http:
+    address: "0.0.0.0:8079"
+    access_logs: false
+    middleware: [ ]
+    pool:
+        num_workers: 3
+
+jobs:
+    consume: [ "default" ]
+    pool:
+        num_workers: 2
+        supervisor:
+            max_worker_memory: 100
+    pipelines:
+        default:
+            driver: memory
+            config:
+                priority: 10
